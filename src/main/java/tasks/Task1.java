@@ -35,18 +35,11 @@ public class Task1 {
             Function.identity()
         ));
 
-    // Создаем список, чтобы заполнить его отсортированными объектами класса Person - сложность O(1)
-    List<Person> sortedPersons = new ArrayList<>();
-
     // Прохожусь по всем id в листе, который нам изначально передали, для каждого получаю
-    // значение из словаря по такому id и добавляю это значение в лист sortedPersons - сложность O(N)
-    personIds.forEach(
-        personId -> {
-          Person person = mapPersons.get(personId);
-          sortedPersons.add(person);
-        });
-
-    // Возвращаю отсортированный List
-    return sortedPersons;
+    // значение из словаря по такому id, пропускаю его дальше в stream, а потом собираю стрим в Лист
+    // сложность O(N)
+    return personIds.stream()
+        .map(mapPersons::get)
+        .toList();
   }
 }
