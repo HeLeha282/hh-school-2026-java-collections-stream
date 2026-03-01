@@ -26,7 +26,7 @@ public class Task6 {
             Area::getName));
 
 
-    Set<String> personDescriptions = persons
+    return persons
         .stream()
         .flatMap(person -> {
           Set<Integer> areaIds = personAreaIds.get(person.id()); // Получаю регионы персоны
@@ -36,8 +36,6 @@ public class Task6 {
           return areaIds.stream()
               .map(areaId -> personName + " - " + areasNameById.get(areaId));
         })
-        .collect(Collectors.toSet()); // Собираю все строки в Set
-
-    return personDescriptions;
+        .collect(Collectors.toSet());
   }
 }
