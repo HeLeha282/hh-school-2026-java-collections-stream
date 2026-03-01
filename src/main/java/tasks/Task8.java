@@ -32,7 +32,7 @@ public class Task8 {
 
     Set<Resume> allResumes = personService.findResumes(personIds);
 
-    Set<PersonWithResumes> personWithResumesSet = persons.stream()
+    return persons.stream()
         .map(person -> {
           Set<Resume> resumes = allResumes.stream()
               .filter(resume -> Objects.equals(resume.personId(), person.id()))
@@ -40,7 +40,5 @@ public class Task8 {
           return new PersonWithResumes(person, resumes);
 
         }).collect(Collectors.toSet());
-
-    return personWithResumesSet;
   }
 }
