@@ -4,10 +4,8 @@ import common.Person;
 import common.PersonService;
 import common.PersonWithResumes;
 import common.Resume;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+
+import java.util.*;
 import java.util.stream.Collectors;
 
 /*
@@ -32,13 +30,19 @@ public class Task8 {
 
     Set<Resume> allResumes = personService.findResumes(personIds);
 
-    return persons.stream()
-        .map(person -> {
-          Set<Resume> resumes = allResumes.stream()
-              .filter(resume -> Objects.equals(resume.personId(), person.id()))
-              .collect(Collectors.toSet());
-          return new PersonWithResumes(person, resumes);
+    // Заранее соберу все резюме для каждой персоны за один проход O(N)
+    Map<Integer, Set<Resume>> resumesByPersonId = allResumes.stream()
+        .collect(Collectors.groupingBy(
+            Resume::personId,
+            Collectors.toSet()
+        ));
 
-        }).collect(Collectors.toSet());
+    return persons.stream()
+        .map(person -> new PersonWithResumes(
+            person,
+            // раньше было O(N) для каждой персоны, теперь O(1)
+            resumesByPersonId.getOrDefault(person.id(), Set.of())
+        ))
+        .collect(Collectors.toSet());
   }
 }

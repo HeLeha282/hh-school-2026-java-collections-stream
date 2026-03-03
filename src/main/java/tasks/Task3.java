@@ -18,9 +18,12 @@ public class Task3 {
     return persons
         .stream()
         .sorted(
-            Comparator.comparing(Person::secondName)
-                .thenComparing(Person::firstName)
-                .thenComparing(Person::createdAt)
+            Comparator.comparing(Person::secondName,
+                    Comparator.nullsLast(Comparator.naturalOrder()))
+                .thenComparing(Person::firstName,
+                    Comparator.nullsLast(Comparator.naturalOrder()))
+                .thenComparing(Person::createdAt,
+                    Comparator.nullsLast(Comparator.naturalOrder()))
         )
         .toList();
   }

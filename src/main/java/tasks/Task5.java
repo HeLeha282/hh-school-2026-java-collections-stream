@@ -27,10 +27,7 @@ public class Task5 {
 
     return persons
         .stream()
-        .map(person -> {
-          Integer personAreaId = personAreaIds.get(person.id());
-          return personConverter.convert(person, personAreaId);
-        })
+        .map(person-> personConverter.convert(person, personAreaIds.get(person.id())))
         .toList();
   }
 }
